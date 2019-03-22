@@ -1,0 +1,33 @@
+改版时,在git上提交后,在测试环境上测试
+ai-box: 
+	稳定版本：http://git.xiaoneng.cn/ai/ai-box/tags/tag-box-reconf-v1.3-v2.5
+    开发分支：http://git.xiaoneng.cn/ai/ai-box/tree/release-reconf-v1.3
+                 
+ai-chat: 
+
+    开发分支：
+		http://git.xiaoneng.cn/ai/ai-chat/tree/release-v1.2   经典 （redis 无密码）
+	    http://git.xiaoneng.cn/ai/ai-chat/tree/release-reconf-v1.2  重构   （redis有密码）
+    稳定版本：
+		http://git.xiaoneng.cn/ai/ai-chat/tags/tag-chat-reconf-v1.2-v2.5 
+		http://git.xiaoneng.cn/ai/ai-chat/tags/tag-v2.5-20180803  
+服务器：192.168.30.152 8022	
+账号：root 密码：XNTestSvr2017 
+
+1.重新拉取镜像
+	python dlup.py chatbotchat 5
+	docker rm -f root_chatbotchat_1 && docker-compose up -d chatbotchat
+2.查看资源
+	[root@ceshi01-v1-java-04 ~]# docker images|grep chat
+3.进入项目里
+	[root@ceshi01-v1-java-04 ~]# docker exec -it root_chatbotchat_1 sh
+4.取机器人管理页面
+	1.[root@ceshi01-v1-java-04 ~]# docker exec -it root_aimanage_1 sh  
+	2./opt/apache-tomcat-8.5.6 # ls
+		取最近的localhost_access_log.xxxx.txt文件
+	打开文件：
+	3./opt/apache-tomcat-8.5.6/logs #  tail -100 localhost_access_log.2018-12-28.txt |grep login 
+		获取到类似：/aimanage/ai/system/v1/login?key=zc_2000&jwt_str=eyJ0eXAiO
+	4.在浏览器中输入：
+		http://192.168.30.152:1830/aimanage/ai/system/v1/login?key=zc_2000&jwt_str=eyJ0e
+		

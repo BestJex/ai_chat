@@ -1,0 +1,45 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+192.168.30.153 ceshi-v1-t2d1-in.ntalker.com
+192.168.30.155 ceshi-v1-tchat1-in.ntalker.com
+
+192.168.30.151 match.in
+192.168.30.151 robot.in
+192.168.30.151 jmst2d.in
+192.168.30.151 jmsim.in
+192.168.30.151 zookeeper.in
+192.168.30.151 chatredis.in
+192.168.30.152 airedis.in
+192.168.30.151 richtextredis.in
+192.168.30.151 spiderredis.in
+192.168.30.151 weixinauthredis.in
+192.168.30.151 subscribe.in
+192.168.30.151 restredis.in
+
+192.168.30.149 traildb.in
+192.168.30.149 trailbkdb.in
+
+192.168.30.147 kfdb.in
+192.168.30.147 kfbkdb1.in
+192.168.30.147 kfbkdb2.in
+192.168.30.147 calldb.in
+192.168.30.147 callbkdb2.in
+
+192.168.30.147 solr.in
+
+#192.168.31.233 reg.xiaoneng.cn
+#120.92.115.108 reg.xiaoneng.cn
+
+
+
+192.168.30.152 ai.mongo.in
+192.168.30.152 aisolr.in
+192.168.30.152 ai.mongo.in
+192.168.30.152 aimongo.in
+192.168.30.147 aidb.in
+192.168.30.152 aibox.in
+192.168.30.152 chatbotzook.in
+192.168.30.152 chatbotredis.in
+192.168.30.152 kafka.in
+192.168.30.152 woredis.in

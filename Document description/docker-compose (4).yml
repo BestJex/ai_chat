@@ -1,0 +1,316 @@
+version: '2'
+services:
+  aipower:
+    network_mode: "bridge"
+    image: reg-bj.xiaoneng.cn/ai/ai-power:tag-2.5-chatterbot-2018080201
+    ports:
+      - "1829:8080"
+    volumes:
+      - /opt/log/ntalkerd-aipower:/opt/apache-tomcat-8.5.6/logs
+      - /etc/hosts:/etc/hosts
+    environment:
+      - AISYSTEM_DBHOST=kfdb.in
+      - AISYSTEM_DBUSER=ntreaderv
+      - AISYSTEM_DBPASS=8qrl177!
+      - AISYSTEM_ZOOKEEPERHOST=zookeeper.in:2181
+      - AISYSTEM_REDIS_DBNUM=5
+      - AISYSTEM_REDIS_HOSTNAME=airedis.in
+      - AISYSTEM_REDIS_PORT=6380
+      - AISYSTEM_MONGO_IP=ai.mongo.in
+      - AISYSTEM_MONGO_PORT=27017
+      - AISYSTEM_MONGO_NAME=mbreader
+      - AISYSTEM_MONGO_PASS=wmqC8orN
+      - AISYSTEM_DUBBO_PROVIDERPORT=20880
+      - MONGO_INTELLIGENT_BUILD_HOST=aimongo.in         #mongo服务地址
+      - MONGO_INTELLIGENT_BUILD_PASSWORD=clusterpwd     #mongo密码
+      - MONGO_INTELLIGENT_BUILD_PORT=27017                      #mongo端口号
+      - MONGO_INTELLIGENT_BUILD_USERNAME=ntmongo                #mongo用户名
+      - AI_INTELLIGENTBUILD_GRID=bjv100                                   #当前grid名称，与数据同步服务中的"GRID_NAME"一致
+      - AI_KAFKA_HOST=kafka.in                                          #kafka服务地址
+      - AI_KAFKA_PORT=9092                                                      #kafka端口号
+      - AI_SERVICE_TYPE=0
+      - AISYSTEM_SOLR_HOST=http://aisolr.in:8060/solr                    #http://192.168.30.186:8060/solr
+      - AISYSTEM_SOLR_DOCUMENT=xbot_core
+      - CHATTERBOT_URL=http://ceshi-v1.ntalker.com/chatbotbox
+
+  aimanage:
+    network_mode: "bridge"
+    image: reg-bj.xiaoneng.cn/ai/ai-manage:tag-2.5-chatterbot-2018080202
+    ports:
+      - "1830:8080"
+    volumes:
+      - /opt/log/ntalkerd-aimanage:/opt/apache-tomcat-8.5.6/logs
+      - /etc/hosts:/etc/hosts
+    environment:
+      - AISYSTEM_DBHOST=kfdb.in
+      - AISYSTEM_DBUSER=ntreaderv
+      - AISYSTEM_DBPASS=8qrl177!
+      - AISYSTEM_ZOOKEEPERHOST=zookeeper.in:2181
+      - AISYSTEM_MANAGE_PROJECTNAME=/aimanage
+      - AISYSTEM_REDIS_DBNUM=5
+      - AISYSTEM_REDIS_HOSTNAME=airedis.in
+      - AISYSTEM_REDIS_PORT=6380
+      - AISYSTEM_MONGO_IP=ai.mongo.in
+      - AISYSTEM_MONGO_PORT=27017
+      - AISYSTEM_MONGO_NAME=mbreader
+      - AISYSTEM_MONGO_PASS=wmqC8orN
+      - MONGO_INTELLIGENT_BUILD_HOST=aimongo.in         #mongo服务地址
+      - MONGO_INTELLIGENT_BUILD_PASSWORD=clusterpwd     #mongo密码
+      - MONGO_INTELLIGENT_BUILD_PORT=27017                      #mongo端口号
+      - MONGO_INTELLIGENT_BUILD_USERNAME=ntmongo                #mongo用户名
+      - AISYSTEM_SOLR_HOST=http://aisolr.in:8060/solr                    #http://192.168.30.186:8060/solr
+      - AISYSTEM_SOLR_DOCUMENT=xbot_core
+
+  aiapi:
+    network_mode: "bridge"
+    image: reg-bj.xiaoneng.cn/ai/ai-api:tag-2.5-chatterbot-2018080202
+    ports:
+      - "1831:8080"
+    volumes:
+      - /opt/log/ntalkerd-aiapi:/opt/apache-tomcat-8.5.6/logs
+      - /etc/hosts:/etc/hosts
+    environment:
+      - AISYSTEM_DBHOST=kfdb.in
+      - AISYSTEM_DBUSER=ntreaderv
+      - AISYSTEM_DBPASS=8qrl177!
+      - AISYSTEM_ZOOKEEPERHOST=zookeeper.in:2181
+      - AISYSTEM_MANAGE_PROJECTNAME=/aiapi
+      - AISYSTEM_REDIS_DBNUM=5
+      - AISYSTEM_REDIS_HOSTNAME=airedis.in
+      - AISYSTEM_REDIS_PORT=6380
+      - AISYSTEM_MONGO_IP=ai.mongo.in
+      - AISYSTEM_MONGO_PORT=27017
+      - AISYSTEM_MONGO_NAME=mbreader
+      - AISYSTEM_MONGO_PASS=wmqC8orN
+      - AISYSTEM_SOLR_HOST=http://aisolr.in:8060/solr    #http://192.168.30.186:8060/solr
+
+  airedis:
+    network_mode: "bridge"
+    image: reg.xiaoneng.cn/centos/chatredis:v1
+    ports:
+      - "6380:6374"
+    volumes:
+      - /opt/log/chatredis:/var/log/supervisor
+      - /etc/hosts:/etc/hosts
+  chatbotzookeeper:
+    network_mode: "bridge"
+    image: reg.xiaoneng.cn/centos/zookeeper:v3
+    ports:
+      - "2181:2181"
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - /opt/log/ntalkerd-zookeeper:/var/log/supervisor
+
+ 
+  chatbotbox1:
+    image: reg-bj.xiaoneng.cn/ai/ai-box:tag-v2.5-2018080201
+    network_mode: "bridge"
+    ports:
+      - "1834:8000"
+    volumes:
+      - /etc/hosts:/etc/hosts
+    environment:
+      - HOST_IP=aibox.in          #部署ai-box底层组件的主机IP地址
+      - HOST_PORT=1834
+      - KB_HOST=kfdb.in             #MySQL数据库的IP地址
+      - KB_PORT=3306                    #MySQL数据库的端口
+      - KB_USER=ntreaderv                    #MySQL数据库的用户名
+      - KB_PWD=8qrl177!                   #MySQL数据库的密码
+      - KG_HOST=ai.mongo.in            #MongoDB数据库的IP地址
+      - KG_PORT=27017                   #MongoDB数据库的端口号
+      - ZK_HOST=chatbotzook.in          #ZooKeeper服务器的主机IP地址
+      - ZK_PORT=2181                    #ZooKeeper服务器的主机端口
+      - WB_HOST=kfdb.in #词库MySQL数据库的IP地址，也是nbot的地址
+      - WB_PORT=3306 #词库MySQL数据库的端口
+      - WB_USER=ntreaderv #词库MySQL数据库的用户名
+      - WB_PWD=8qrl177! #词库MySQL数据库的密码
+ 
+  chatbotbox2:
+    image: reg-bj.xiaoneng.cn/ai/ai-box:tag-v2.5-2018080201
+    network_mode: "bridge"
+    ports:
+      - "1836:8000"
+    volumes:
+      - /etc/hosts:/etc/hosts
+    environment:
+      - HOST_IP=aibox.in          #部署ai-box底层组件的主机IP地址
+      - HOST_PORT=1836
+      - KB_HOST=kfdb.in             #MySQL数据库的IP地址
+      - KB_PORT=3306                    #MySQL数据库的端口
+      - KB_USER=ntreaderv                    #MySQL数据库的用户名
+      - KB_PWD=8qrl177!                   #MySQL数据库的密码
+      - KG_HOST=ai.mongo.in            #MongoDB数据库的IP地址
+      - KG_PORT=27017                   #MongoDB数据库的端口号
+      - ZK_HOST=chatbotzook.in          #ZooKeeper服务器的主机IP地址
+      - ZK_PORT=2181                    #ZooKeeper服务器的主机端口
+      - WB_HOST=kfdb.in #词库MySQL数据库的IP地址，也是nbot的地址
+      - WB_PORT=3306 #词库MySQL数据库的端口
+      - WB_USER=ntreaderv #词库MySQL数据库的用户名
+      - WB_PWD=8qrl177! #词库MySQL数据库的密码
+ 
+  chatbotredis:
+    image: reg.xiaoneng.cn/library/redis:3.2.4
+    network_mode: "bridge"
+    ports:
+      - "6381:6379"
+    volumes:
+      - /etc/hosts:/etc/hostsk
+ 
+  chatbotchat:
+    image: reg-bj.xiaoneng.cn/ai/ai-chat:tag-v2.5-20180802
+    network_mode: "bridge"
+    ports:
+      - "1835:8000"
+    volumes:
+      - /etc/hosts:/etc/hosts
+    environment:
+      - DB_HOST=kfdb.in                 #mysql数据库主机
+      - DB_PORT=3306                     #mysql数据库端口号
+      - DB_USER=ntreaderv               #mysql数据库用户名
+      - DB_PASSWORD=8qrl177!            #mysql数据库密码
+      - DB_NAME=ai_chat                  #mysql数据库名
+      - MONGO_HOST=ai.mongo.in         #Mongo数据库主机
+      - MONGO_PORT=27017                #Mongo数据库端口
+      - ZK_HOST=chatbotzook.in:2181     # zookeeper主机:zookeeper端口号
+      - MANAGE_K=0                                      #取消ZK中k的限制
+      - REDIS_HOST=chatbotredis.in:6381  #redis主机:redis端口号
+          
+  aisolr:
+  #  image: reg.xiaoneng.cn/ai/ai_content:tag-2.1
+    image: reg.xiaoneng.cn/ai/ai_content:release-v1.3
+    ports:
+      - "8060:8080"
+    volumes:
+      - /etc/hosts:/etc/hosts
+    environment:
+      - AISYSTEM_DBHOST=kfdb.in   #nbot库
+      - AISYSTEM_DBUSER=ntreaderv
+      - AISYSTEM_DBPASS=8qrl177!
+
+  aietl:
+    image: reg-bj.xiaoneng.cn/ai/ai-etl:release-v1.0
+    network_mode: host
+    volumes:
+      - /etc/hosts:/etc/hosts
+    environment:
+      - HADOOP_MASTER=0.0.0.0     #Hadoop集群的Master地址（目前是单节点）
+      - AIETL_MYSQLHOST=127.0.0.1   #MySql集群数据库地址
+      - AIETL_MYSQLPORT=3306   #MySql数据库端口
+      - AIETL_MYSQLUSER=aireaderv   #MySql数据库用户名
+      - AIETL_MYSQLPASS=8ql177!   #MySql数据库密码
+      - AIETL_MONGOHOST=aimongo.in   #Mongo集群数据库地址
+      - AIETL_MONGOPORT=27017   #Mongo数据库端口
+      - AIETL_MONGOUSER=ntmongo   #Mongo集群数据库用户名
+      - AIETL_MONGOPASS=clusterpwd   #Mongo集群数据库密码
+      - KAFKA_HOST=kafka.in   #Kafka服务地址
+      - KAFKA_PORT=9092   #Kafka服务端口
+
+  aicalculation:
+    image: reg.xiaoneng.cn/ai/ai-calculation:release-v1.1
+    network_mode: "host"
+    volumes:
+      - /opt/log/ntalkerd-aicalculation:/opt/apache-tomcat-8.5.6/logs
+      - /etc/hosts:/etc/hosts
+    environment:
+      - DB_HOST=aimongo.in   #Mongo数据库地址
+      - DB_PORT=27017  #Mongo数据库端口
+      - DB_USER=ntmongo  #Mongo集群数据库用户名
+      - DB_PWD=clusterpwd   #Mongo数据库密码
+      - MQ_HOST=kafka.in  #Kafka服务地址
+      - MQ_PORT=9092  #Kafka服务端口
+  kafka:
+    image: reg.xiaoneng.cn/zoobase/kafka:v2
+    network_mode: "host"
+    volumes:
+      - /etc/hosts:/etc/hosts
+    environment:
+      - BROKERID=0
+      - HOSTNAME=kafka.in
+      - ZK_SERVER=zookeeper.in:2181   
+
+  zookeeper:
+    image: reg.xiaoneng.cn/centos/zookeeper:v3
+    ports:
+      - "2181:2181"
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - /opt/log/ntalkerd-zookeeper:/var/log/supervisor
+
+  ai_chat:
+    image: reg-bj.xiaoneng.cn/ai/ai-chat:tag-v2.5-20180802
+ 
+    ports:
+      - "10000:8000"
+    environment:
+      - DB_HOST=192.168.30.147 #mysql数据库主机
+      - DB_PORT=3306 #mysql数据库端口号
+      - DB_USER=root #mysql数据库用户名
+      - DB_PASSWORD=123456 #mysql数据库密码
+      - DB_NAME=ai_chat #mysql数据库名
+      - MONGO_HOST=192.168.30.152 #Mongo数据库主机
+      - MONGO_PORT=27017 #Mongo数据库端口
+      - ZK_HOST=192.168.30.151:2181  #zookeeper主机:zookeeper端口号
+      - MANAGE_K=0 #取消ZK中k的限制
+      - REDIS_HOST=192.168.30.151:6379  #redis主机:redis端口号
+
+  woweb:
+    network_mode: "bridge"
+    image: reg.xiaoneng.cn/work-order/wo_web:release-2.4
+    ports:
+      - "1811:80"
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - /opt/log/nginx:/var/log/nginx
+    environment:
+      - WO_APIURL=https://ceshi-v1.ntalker.com/
+      - CG_APIURL=https://woweb.ntalker.com
+      - CRM_APIURL=https://crmweb.ntalker.com
+      - JD_APIURL=https://ceshi-v1.ntalker.com
+    
+  wo:
+    image: reg.xiaoneng.cn/work-order/wo:develop-2.5
+    ports:
+      - '1837:8080'
+    volumes:
+      - /opt/log/ntalkerd-wo:/opt/apache-tomcat-8.5.6/logs
+      - /etc/hosts:/etc/hosts
+    environment:
+      - CLASSICAL_API_CLIENTID=44f95c60
+      - CLASSICAL_API_CLIENTSECRET=677596839b
+      - CLASSICAL_API_CODE=0c62af95c1507f9d06cc2b88cf8c9409
+      - CLASSICAL_API_GRANTTYPE=code
+      - CLASSICAL_API_URL=http://ceshi-v1.ntalker.com
+      - DB_HOST=kfdb.in
+      - DB_NAME=wo
+      - DB_PASSWORD=8qrl177!
+      - DB_PORT=3306
+      - DB_USERNAME=ntreaderv
+      - FILE_UPLOAD_PATH=test
+      - FILE_UPLOAD_URL=http://filestorage-std.ntalker.com/file/all
+      - KAFKA_CONNECT=zookeeper1.base-gear.marathon.ntalker:2181,zookeeper2.base-gear.marathon.ntalker:2181,zookeeper3.base-gear.marathon.ntalker:2181
+      - KAFKA_GROUPID=NT_KAFKA_WO_STD10086
+      - KAFKA_TOPIC=usercenter_std_nt-function
+      - RECONSTRUCTGETSKIN_URL=https://dolphinsetting-std.ntalker.com/settings/
+      - REDIS_HOST=woredis.in
+      - REDIS_PORT=6382
+      - REIDS_PASSWORD=111111
+      - SDK_PRIVILEGE_URL=http://usercenter-std.ntalker.com
+      - SDK_USERCENTER_CONNECT=zookeeper1.base-gear.marathon.ntalker:2181,zookeeper2.base-gear.marathon.ntalker:2181,zookeeper3.base-gear.marathon.ntalker:2181
+      - SDK_USERCENTER_GROUPID=nt-wo-std333
+      - SDK_USERCENTER_TOPIC=usercenter_std_nt-wo
+      - SENDEMAIL_URL=http://posthaste-std.ntalker.com/sendEmail
+      - SERVER_NAME=localhost
+      - SERVER_PORT=80
+      - SERVICE_FUNCTION_ID=kf_ticket
+      - SWITCH_SYSCUSTOMER=1
+      - WORECIVER_MAX=200
+      - WOTRIGGER_MAX=200
+      - SENDNOTE_URL=http://posthaste.ntalker.com/sendSms
+      - TEMPLET_MAX=500      
+      - WEB_HOST=https://ceshi-v1.ntalker.com
+  woredis:
+    image: reg.xiaoneng.cn/library/redis:3.2
+    ports:
+      - '6382:6379'
+    volumes:
+      - /etc/hosts:/etc/hosts

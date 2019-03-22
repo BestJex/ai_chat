@@ -1,0 +1,5 @@
+-------2018-04-12 06:10:27,495[Pid:3800] [Thid:123145387638784] [error:151] [views:test] [ERROR]- {'question': None, 'questionId': 'jsdkkldf', 'answer': 'OK', 'score': '1', 'kbId': None, 'kb_version': None}
+-------2018-04-12 06:13:15,610[Pid:3901] [Thid:123145398108160] [error:151] [views:test] [ERROR]- {'question': None, 'questionId': 'jsdkkldf', 'answer': 'OK', 'score': '1', 'kbId': None, 'kb_version': None}
+-------2018-04-17 16:09:16,485[Pid:4483] [Thid:140735543690048] [error:92] [kazoo_simplify:query_request] [ERROR]- __init__() got unexpected keyword arguments: dict_keys(['host'])
+------[ERROR][error:60] [kazoo_simplify:query_request][2018-04-19 14:18:42,003]- Connection time-out
+------[ERROR][tasks:func_temp---31][2018-04-23 15:00:59,971]- Connection time-out

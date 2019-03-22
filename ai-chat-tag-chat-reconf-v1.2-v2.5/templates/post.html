@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ChatterBot机器人QA入口(v0.4)</title>
+{% load static %}
+<link rel="shortcut icon" href="{% static "img/xiaoneng.ico" %}"/>
+<style id="css_index" index="index" type="text/css">
+html,body{height:100%}
+html{overflow-y:auto}
+body{font:12px arial;text-align:;background:#fff}
+body,p,form,ul,li{margin:0;padding:0;list-style:none}
+body,form,#fm{position:relative}
+
+img{border:0}
+a{color:#00c}
+a:active{color:#f60}
+input{border:0;padding:0}
+#wrapper{position:relative;_position:;min-height:100%}
+#head{padding-bottom:100px;text-align:center;*z-index:1}
+#ftCon{height:50px;position:absolute;bottom:47px;text-align:left;width:100%;margin:0 auto;z-index:0;overflow:hidden}
+.ftCon-Wrapper{overflow:hidden;margin:0 auto;text-align:center;*width:640px}
+
+#ftConw{display:inline-block;text-align:left;margin-left:33px;line-height:22px;position:relative;top:-2px;*float:right;*margin-left:0;*position:static}
+#ftConw,#ftConw a{color:#999}
+#ftConw{text-align:center;margin-left:0}
+
+.s_btn{width:100px;height:36px;color:#fff;font-size:15px;letter-spacing:1px;background:#3385ff;border-bottom:1px solid #2d78f4;outline:medium;*border-bottom:0;-webkit-appearance:none;-webkit-border-radius:0}
+.s_btn_h{background-position:-240px -48px}
+.s_btn_wr{width:97px;height:34px;display:inline-block;background-position:-120px -48px;*position:relative;z-index:0;vertical-align:top}
+#jgwab{margin-left:19px}
+#cp .c-icon-icrlogo,.c-icon-jgwablogo{width:14px;height:17px;display:inline-block;overflow:hidden;background:url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/icons_5859e57.png) no-repeat;_background-image:url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/icons_d5b04cc.gif)}
+#cp .c-icon-icrlogo{background-position:-600px -96px;position:relative;top:3px}
+.c-icon-jgwablogo{background-position:-623px -96px;position:relative;top:3px}
+#shouji{margin-right:14px}
+#u{display:none}
+#c-tips-container{display:none}
+#wrapper{min-width:810px;height:100%;min-height:600px}
+#head{position:relative;padding-bottom:0;height:100%;min-height:600px}
+#head .head_wrapper{height:100%}
+
+#lm{color:#666;width:100%;height:60px;margin-top:60px;line-height:15px;font-size:13px;position:absolute;top:0;left:0}
+#lm a{color:#666}
+
+#s_tab{display:none}
+.s_form{position:relative;top:38.2%}
+.s_form_wrapper{position:relative;top:-191px}
+.s_ipt_wr{height:34px}
+
+#form{margin:22px auto 0;width:641px;text-align:left;z-index:100}
+#form .bdsug,#fm .bdsug{top:35px}
+
+#mHolder{width:62px;position:relative;z-index:296;display:none}
+
+#mCon span{display:block;width:100px;font-weight:bold;font-size:15px}
+#mCon .hw{text-decoration:underline;cursor:pointer;display:inline-block}
+#mCon .pinyin{display:inline-block}
+#mCon .c-icon-chevron-unfold2{margin-left:5px}
+
+#mMenu a{width:100%;height:100%;display:block;line-height:22px;text-indent:6px;text-decoration:none;filter:none\9}
+#mMenu,#user ul{box-shadow:1px 1px 2px #ccc;-moz-box-shadow:1px 1px 2px #ccc;-webkit-box-shadow:1px 1px 2px #ccc;filter:progid:DXImageTransform.Microsoft.Shadow(Strength=2, Direction=135, Color=#cccccc)\9}
+#mMenu li{font-size:15px}
+
+#kw{position:relative}
+.s_ipt{width:523px;height:34px;font:16px\/18px arial;line-height:34px;margin:5px 0 0 7px;padding:0;background:#fff;border:1px solid blue;outline:0;-webkit-appearance:none}
+
+
+
+</style>
+
+
+</head>
+<body>
+    <!--<form action="/search/" method="post">
+        {% csrf_token %}
+        <input type="text" name="q">
+        <input type="submit" value="提问">
+    </form>-->
+
+<div id="head">
+<div class="head_wrapper">
+<div class="s_form">
+<div class="s_form_wrapper">
+
+<div id="lg">
+	<img hidefocus="true" src="{% static "img/banner.png" %}" width="270" height="90"  usemap="#mp">
+<map name="mp">
+	<area style="outline:none;" hidefocus="true" shape="rect" text="center" coords="0,0,123,89" href="http://www.xiaoneng.cn" onmousedown="return ns_c({fm: 'tab', tab: 'felogo', rsv_platform: 'wwwhome' })" target="_blank" title="点击一下，了解小能"onmousedown="return ns_c({'fm':'behs','tab':'bdlogo'})">
+	<area style="outline:none;" hidefocus="true" shape="rect" text="center" coords="124,0,269,89" href="http://chatterbot.readthedocs.io/" onmousedown="return ns_c({fm: 'tab', tab: 'felogo', rsv_platform: 'wwwhome' })" target="_blank" title="点击一下，了解更多"onmousedown="return ns_c({'fm':'behs','tab':'bdlogo'})">
+</map>
+</div>
+
+<!--<a href="/" id="result_logo" onmousedown="return c({'fm':'tab','tab':'logo'})">
+<img src="//www.baidu.com/img/baidu_jgylogo3.gif" alt="到首页" title="到首页">
+</a>-->
+
+<form id="form" name="f" action="/search/" method="post" class="fm">
+{% csrf_token %}
+<span class="soutu-btn"></span>
+<input id="kw" name="q" class="s_ipt" value="" maxlength="255" autocomplete="off">
+<!-- <a href="javascript:;" id="quickdelete" title="清空" class="quickdelete" style="top: 0px; right: 0px; display: none;"></a>-->
+<input id="su" value="提问一下" class="bg s_btn" type="submit">
+
+<div id="mCon">
+	<span></span>
+	<br>
+</div>
+
+<div id="mCon">
+	<span>{{ qus }}</span>
+	<br>
+</div>
+<ul id="mMenu">
+	<li style="color:red">{{ rlt }}</li>
+</ul>
+<br>
+<div id="mCon">
+	<span>{{ ans }}</span>
+	<br>
+</div>
+<ul id="mMenu">
+	<li style="color:blue">{{ rps }}</li>
+</ul>
+<br>
+<div id="mCon">
+	<span>{{ sim }}</span>
+	<br>
+</div>
+<ul id="mMenu">
+	<li style="color:green">{{ sqm }}</li>
+</ul>
+<br>
+<div id="mCon">
+	<span>{{ cof }}</span>
+	<br>
+</div>
+<ul id="mMenu">
+	<li style="color:green">{{ val }}</li>
+</ul>
+</form>
+
+</div>
+</div>
+</div>
+<div id="u">
+<a class="toindex" href="/">首页</a>
+<a href="javascript:;" name="tj_settingicon" class="pf">设置<i class="c-icon c-icon-triangle-down"></i></a>
+</div>
+<!--
+<div id="u1">
+<a href="http://news.baidu.com" name="tj_trnews" class="mnav">新闻</a>
+<a href="http://www.hao123.com" name="tj_trhao123" class="mnav">hao123</a>
+<a href="http://map.baidu.com" name="tj_trmap" class="mnav">地图</a>
+<a href="http://v.baidu.com" name="tj_trvideo" class="mnav">视频</a>
+<a href="http://tieba.baidu.com" name="tj_trtieba" class="mnav">贴吧</a>
+<a href="http://xueshu.baidu.com" name="tj_trxueshu" class="mnav">学术</a>
+<a href="https://passport.baidu.com/v2/?login&tpl=mn&u=http%3A%2F%2Fwww.baidu.com%2F&sms=5" name="tj_login" class="lb" onclick="return false;">登录</a>
+<a href="http://www.baidu.com/gaoji/preferences.html" name="tj_settingicon" class="pf">设置</a>
+<a href="http://www.baidu.com/more/" name="tj_briicon" class="bri" style="display: block;">更多产品</a>
+</div>
+-->
+</div> 
+
+</body>
+</html>
+
+

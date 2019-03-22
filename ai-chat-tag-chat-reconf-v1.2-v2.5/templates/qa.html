@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>qa页面</title>
+</head>
+<body>
+<form name="form" action="/api/v1/get_qa/" method="post">
+       <div style = "max-width:470px;">
+               <label for="know_base_id">know_base_id:</label>
+               <input type = "text" style = "margin-left:20%;"
+                  name = "know_base_id" />
+         </div>
+         <br>
+         <div style = "max-width:470px;">
+             <label for="kg_version">kg_version:</label>
+               <input type = "text" style = "margin-left:20%;"
+                  name = "kg_version" label="kg_version"/>
+         </div>
+         <br>
+         <div style = "max-width:470px;">
+             <label for="question">question:</label>
+               <input type = "text" style = "margin-left:20%;"
+                  name = "question" label="question"/>
+         </div>
+         <br>
+      <button type="submit" name="sub_btn">查询</button>
+</form>
+</body>
+</html>
