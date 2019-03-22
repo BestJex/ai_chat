@@ -1,5 +1,5 @@
 AI_CHAT：
-1.知识库逻辑：class LexiconIndexesSet(ModelViewSet)
+### 1.知识库逻辑：class LexiconIndexesSet(ModelViewSet)
 	新建知识库并存到redis：
 		Request:
 			url = url+"/knowbase/"
@@ -13,7 +13,7 @@ AI_CHAT：
 		Deal:
 			LexiconIndexes.objects.all().filter(id__startswith=std_id).delete()
 			cache.delete_pattern(str(std_id))
-2.问答对逻辑：class QuestionsSet(ModelViewSet)
+### 2.问答对逻辑：class QuestionsSet(ModelViewSet)
 	新建单个问答对：
 		Request:
 			url = url + "/qapairs/"
@@ -112,7 +112,7 @@ AI_CHAT：
 		Deal：
 			 Questions.objects.all().filter(id__startswith=std_id).delete()
 
-3.知识库训练与发布：class TrainSet(ModelViewSet)
+### 3.知识库训练与发布：class TrainSet(ModelViewSet)
     1.知识库训练：
         Request:
             url = url + "/train/prepub/"
@@ -237,7 +237,7 @@ AI_CHAT：
         1.校验检测的知识库在KG中是否都有训练版本。取出知识库id和最新的版本号
         2.刪除訓練任務 刪除歷史記錄 去MONGO库删除需删除的kg 删除知识图 删除问题库 删除知识库
 
-4.QA问答：class TrainSet(ModelViewSet)
+### 4.QA问答：class TrainSet(ModelViewSet)
     1.预发布qa
          Request:
                 url = url + "/qas/prepub/"
@@ -321,8 +321,8 @@ AI_CHAT：
                  sql_3 = "select know_base_id, kg_version from app_knowgraphs where in_use = True"
         4.去zk中取B类Box的请求地址
         5.分配地址，并向底层发送请求
-AI_BOX
-    A类Box监控知识库：
+AI——Box
+### A类Box监控知识库：
         1.创建ChatterBox
             1.创建m个A类，n个B类ChatterBox,并实例化。
                 定义type，Name(A1,B1)，VName的host ip port，Zookeeper的host，以num作为ID,path = Type/VName/Name (A/VM1/A1)
@@ -401,7 +401,7 @@ AI_BOX
                     5.将ZK中当前Box释放,Target为Null，关闭数据库连接
             3.所有线程都结束后，将每个Box的ZK服务停止。20s后，再去连接ZK，开启线程，开启新一轮的监控，训练
 
-    B类Box问答处理：
+### B类Box问答处理：
         调用chatterbot 的 get_response的接口，返回答案
         1.创建B类Box和chatterbot机器人
             根据传来的id创建B类Box,id为1就创建B/VM1/B1,为该Box创建chatterbot机器人，机器人的mongo地址和训练时创建的机器人相同
